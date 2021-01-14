@@ -1,52 +1,149 @@
 <template>
   <div class="container-fluid">
+    <div
+      class="alert alert-success alert-dismissible fade show"
+      role="alert"
+      v-if="statusMessage"
+    >
+      <span v-html="statusMessage"></span>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <div class="row">
       <div class="col-xl-4 col-lg-5 col-md-6 col-12">
         <h4 class="display-4">All Promotions</h4>
         <hr />
-        <div class="h-50 overflow-auto">
-          <div
-            v-if="currentPromotions.length === 0"
-            class="d-flex justify-content-center"
-          >
-            <div class="spinner-border" role="status">
-              <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-4 col-lg-5 col-md-6 col-12 order-last order-md-first">
+        <div class="row mb-3">
+          <div class="col" style="height: 700px; overflow-y: auto;">
+            <div
+              v-if="currentPromotions.length === 0"
+              class="d-flex justify-content-center"
+            >
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
             </div>
-          </div>
-          <div
-            class="card mb-2"
-            v-for="promo in currentPromotions"
-            :key="promo.id"
-          >
-            <div class="card-body">
-              <h3 class="card-title">{{ promo.promotionName }}</h3>
-              <button type="button" class="btn btn-primary btn-block">
-                Select Promotion
-              </button>
+            <div
+              class="row mb-2"
+              v-for="promo in currentPromotions"
+              :key="promo.id"
+            >
+              <div class="col">
+                <div class="card">
+                  <div class="card-body">
+                    <h3 class="card-title">{{ promo.promotionName }}</h3>
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-block"
+                      @click="selectPromo(promo.promotionId)"
+                    >
+                      Select Promotion
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="card">
-          <div class="card-body">
-            <h3 class="card-title">Create New Promo</h3>
-            <button type="button" class="btn btn-success btn-block">
-              Create
-            </button>
+        <div class="row">
+          <div class="col">
+            <div class="card">
+              <div class="card-body">
+                <h3 class="card-title">Create New Promo</h3>
+                <button
+                  type="button"
+                  class="btn btn-success btn-block"
+                  data-toggle="modal"
+                  data-target="#createNewPromoModal"
+                >
+                  Create
+                  <faIcon :icon="['fas', 'plus-circle']"></faIcon>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="col-xl col-lg-7 col-md-6 col-12">
-        <div class="card" style="display: none;">
-          <div class="card-header">
-            Featured
+      <div
+        class="col-xl col-lg-7 col-md-6 col-12 order-first order-md-last mb-2"
+      >
+        <PromotionDetails
+          :selected-promotion="selectedPromotion"
+          :stores="stores"
+          @promoAction="updatePromotion"
+        />
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="createNewPromoModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Create New Promotion
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              With supporting text below as a natural lead-in to additional
-              content.
-            </p>
-            <a href="#" class="btn btn-primary">Button</a>
+          <div class="modal-body">
+            <form ref="newPromoForm">
+              <div class="form-group">
+                <label for="promotionName">Promotion Name</label>
+                <input
+                  type="text"
+                  v-model.trim="newPromotionName"
+                  class="form-control"
+                  id="promotionName"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="newPercentage">Percentage (%)</label>
+                <input
+                  type="number"
+                  v-model.number="newPromotionPercentage"
+                  class="form-control"
+                  id="newPercentage"
+                  min="1"
+                  max="100"
+                  required
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-warning" data-dismiss="modal">
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="createNewPromotion"
+              :data-dismiss="isFormValid() ? 'modal' : ''"
+            >
+              Create promotion
+            </button>
           </div>
         </div>
       </div>
@@ -55,20 +152,147 @@
 </template>
 <script>
 import axios from "axios";
+import _ from "lodash";
+import PromotionDetails from "@/components/PromotionDetails.vue";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
-const apiUrl = "https://owl-backend-server.herokuapp.com/hoPromotionsEndpoint";
+library.add(faPlusCircle);
+
+const apiUrl = "https://owl-backend-server.herokuapp.com";
 export default {
   name: "Promotions",
+  components: { PromotionDetails },
   data: () => {
     return {
       currentPromotions: [],
+      selectedPromotion: null,
+      stores: [],
+      newPromotionName: "",
+      newPromotionPercentage: 0,
+      statusMessage: "",
     };
   },
-  created() {
+  methods: {
+    selectPromo(promoId) {
+      this.selectedPromotion = _.find(
+        this.currentPromotions,
+        (x) => x.promotionId === promoId
+      );
+    },
+    isFormValid() {
+      if (this.$refs.newPromoForm)
+        return this.$refs.newPromoForm.checkValidity();
+
+      return false;
+    },
+    createNewPromotion() {
+      console.log(this.isFormValid());
+      if (!this.isFormValid()) {
+        this.$refs.newPromoForm.reportValidity();
+        return;
+      }
+
+      axios
+        .get(
+          `${apiUrl}/hoPromotionsEndpoint/addPromotion?percentage=${this.newPromotionPercentage}&promotionName=${this.newPromotionName}`
+        )
+        .then((response) => {
+          console.log(response);
+          this.statusMessage = `Promotion <strong> ${this.newPromotionName} </strong> successfully created`;
+          this.newPromotionName = "";
+          this.newPromotionPercentage = 0;
+          this.updatePromotionsList();
+        })
+        .catch((err) => console.log(err));
+    },
+    deletePromotion() {
+      axios
+        .get(
+          `${apiUrl}/hoPromotionsEndpoint/deletePromotion?promotionId=${this.selectedPromotion.promotionId}`
+        )
+        .then(async (response) => {
+          console.log(response);
+          this.statusMessage = `Promotion <strong> ${this.selectedPromotion.promotionName} </strong> successfully deleted`;
+          await this.updatePromotionsList();
+        })
+        .catch((err) => console.log(err));
+    },
+    updatePromoActivation(action) {
+      let apiAction = "";
+
+      if (action.includes("Deactivate")) {
+        apiAction = "removePromotionAllStores";
+      } else {
+        apiAction = "setPromotionAllStores";
+      }
+
+      axios
+        .get(
+          `${apiUrl}/hoPromotionsEndpoint/${apiAction}?promotionId=${this.selectedPromotion.promotionId}`
+        )
+        .then(async (response) => {
+          console.log(response);
+          this.statusMessage = response.data;
+          const promoId = this.selectedPromotion.promotionId;
+          await this.updatePromotionsList(promoId);
+        })
+        .catch((err) => console.log(err));
+    },
+    updatePromotion(action, storeId, activationStatus) {
+      if (!storeId) {
+        if (action === "Delete") {
+          this.deletePromotion();
+        } else {
+          this.updatePromoActivation(action);
+        }
+      } else {
+        this.activatePromotionForStore(storeId, activationStatus);
+      }
+    },
+    activatePromotionForStore(storeId, activationStatus) {
+      let apiAction = "";
+
+      if (activationStatus) {
+        apiAction = "setPromotionOneStore";
+      } else {
+        apiAction = "removePromotionOneStore";
+      }
+
+      console.log(activationStatus);
+      axios
+        .get(
+          `${apiUrl}/hoPromotionsEndpoint/${apiAction}?promotionId=${this.selectedPromotion.promotionId}&storeId=${storeId}`
+        )
+        .then(async (response) => {
+          this.statusMessage = response.data;
+          const promoId = this.selectedPromotion.promotionId;
+          await this.updatePromotionsList(promoId);
+        })
+        .catch((err) => console.log(err));
+    },
+    async updatePromotionsList(promoId) {
+      axios
+        .get(`${apiUrl}/hoPromotionsEndpoint/getAllPromotions`)
+        .then((response) => {
+          this.currentPromotions = [...response.data];
+          if (isNaN(promoId)) {
+            this.selectedPromotion = null;
+          } else {
+            this.selectPromo(promoId);
+          }
+          window.scrollTo(0, 0);
+        })
+        .catch((err) => console.log(err));
+    },
+  },
+  async created() {
+    await this.updatePromotionsList();
+
     axios
-      .get(`${apiUrl}/getAllPromotions`)
+      .get(`${apiUrl}/hoStoresEndpoint/getAllStores`)
       .then((response) => {
-        this.currentPromotions = [...response.data];
+        this.stores = [...response.data];
       })
       .catch((err) => console.log(err));
   },
