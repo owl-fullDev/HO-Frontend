@@ -5,6 +5,7 @@ import Products from "@/views/Products.vue";
 import Sales from "@/views/Sales.vue";
 import Stores from "@/views/Stores.vue";
 import Shipments from "@/views/Shipments.vue";
+import Employees from "@/views/Employees.vue";
 
 const routes = [
   {
@@ -15,6 +16,10 @@ const routes = [
   {
     path: "/promos",
     name: "Promotions",
+    component: Promotions,
+  },
+  {
+    path: "/promos/:promoId",
     component: Promotions,
   },
   {
@@ -36,6 +41,11 @@ const routes = [
     path: "/shipments",
     name: "Shipments",
     component: Shipments,
+  },
+  {
+    path: "/employees",
+    name: "Employees",
+    component: Employees,
   },
 ];
 

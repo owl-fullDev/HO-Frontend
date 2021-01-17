@@ -22,67 +22,18 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xl-4 col-lg-5 col-md-6 col-12 order-last order-md-first">
-        <div class="row mb-3">
-          <div class="col" style="height: 700px; overflow-y: auto;">
-            <div
-              v-if="currentPromotions.length === 0"
-              class="d-flex justify-content-center"
-            >
-              <div class="spinner-border" role="status">
-                <span class="sr-only">Loading...</span>
-              </div>
-            </div>
-            <div
-              class="row mb-2"
-              v-for="promo in currentPromotions"
-              :key="promo.id"
-            >
-              <div class="col">
-                <div class="card">
-                  <div class="card-body">
-                    <h3 class="card-title">{{ promo.promotionName }}</h3>
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-block"
-                      @click="selectPromo(promo.promotionId)"
-                    >
-                      Select Promotion
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
-            <div class="card">
-              <div class="card-body">
-                <h3 class="card-title">Create New Promo</h3>
-                <button
-                  type="button"
-                  class="btn btn-success btn-block"
-                  data-toggle="modal"
-                  data-target="#createNewPromoModal"
-                >
-                  Create
-                  <faIcon :icon="['fas', 'plus-circle']"></faIcon>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        class="col-xl col-lg-7 col-md-6 col-12 order-first order-md-last mb-2"
-      >
-        <PromotionDetails
-          :selected-promotion="selectedPromotion"
-          :stores="stores"
-          @promoAction="updatePromotion"
-        />
-      </div>
+      <EntityList
+        :entities-list="currentPromoEntityList"
+        :entity-name="'promotion'"
+        :modal-name="'createNewPromoModal'"
+        @selectEntity="selectPromo"
+      />
+
+      <PromotionDetails
+        :selected-promotion="selectedPromotion"
+        :stores="stores"
+        @promoAction="updatePromotion"
+      />
     </div>
     <div
       class="modal fade"
@@ -125,7 +76,7 @@
                   v-model.number="newPromotionPercentage"
                   class="form-control"
                   id="newPercentage"
-                  min="1"
+                  min="0"
                   max="100"
                   required
                 />
@@ -154,6 +105,7 @@
 import axios from "axios";
 import _ from "lodash";
 import PromotionDetails from "@/components/PromotionDetails.vue";
+import EntityList from "@/components/EntityList.vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
@@ -162,7 +114,7 @@ library.add(faPlusCircle);
 const apiUrl = "https://owl-backend-server.herokuapp.com";
 export default {
   name: "Promotions",
-  components: { PromotionDetails },
+  components: { PromotionDetails, EntityList },
   data: () => {
     return {
       currentPromotions: [],
@@ -177,7 +129,7 @@ export default {
     selectPromo(promoId) {
       this.selectedPromotion = _.find(
         this.currentPromotions,
-        (x) => x.promotionId === promoId
+        (x) => x.promotionId == promoId
       );
     },
     isFormValid() {
@@ -286,8 +238,16 @@ export default {
         .catch((err) => console.log(err));
     },
   },
+  computed: {
+    currentPromoEntityList() {
+      return this.currentPromotions.map((x) => ({
+        entityId: x.promotionId,
+        name: x.promotionName,
+      }));
+    },
+  },
   async created() {
-    await this.updatePromotionsList();
+    await this.updatePromotionsList(this.$route.params.promoId);
 
     axios
       .get(`${apiUrl}/hoStoresEndpoint/getAllStores`)
