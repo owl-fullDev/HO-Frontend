@@ -32,7 +32,7 @@
       <div class="col">
         <div class="card">
           <div class="card-body">
-            <h3 class="card-title">Create New Promo</h3>
+            <h3 class="card-title">Create New {{ entityName }}</h3>
             <button
               type="button"
               class="btn btn-success btn-block"
