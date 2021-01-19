@@ -100,7 +100,7 @@ export default {
   components: { EntityList, StoreDetails },
   data: () => {
     return {
-      stores: [],
+      stores: null,
       selectedStore: null,
       promotions: [],
       newStoreLocation: "",
@@ -112,6 +112,8 @@ export default {
   },
   computed: {
     storesEntityList() {
+      if (!this.stores) return null;
+
       return this.stores.map((x) => ({
         entityId: x.storeId,
         name: x.location,
@@ -126,7 +128,8 @@ export default {
       axios
         .get(`${apiUrl}/getAllStores`)
         .then((response) => {
-          this.stores = [...response.data];
+          this.stores = response.data.length != 0 ? [...response.data] : [];
+
           window.scrollTo(0, 0);
         })
         .catch((err) => console.log(err));

@@ -117,7 +117,7 @@ export default {
   components: { PromotionDetails, EntityList },
   data: () => {
     return {
-      currentPromotions: [],
+      currentPromotions: null,
       selectedPromotion: null,
       stores: [],
       newPromotionName: "",
@@ -210,8 +210,6 @@ export default {
       } else {
         apiAction = "removePromotionOneStore";
       }
-
-      console.log(activationStatus);
       axios
         .get(
           `${apiUrl}/hoPromotionsEndpoint/${apiAction}?promotionId=${this.selectedPromotion.promotionId}&storeId=${storeId}`
@@ -227,7 +225,8 @@ export default {
       axios
         .get(`${apiUrl}/hoPromotionsEndpoint/getAllPromotions`)
         .then((response) => {
-          this.currentPromotions = [...response.data];
+          this.currentPromotions =
+            response.data.length != 0 ? [...response.data] : [];
           if (isNaN(promoId)) {
             this.selectedPromotion = null;
           } else {
@@ -240,6 +239,8 @@ export default {
   },
   computed: {
     currentPromoEntityList() {
+      if (!this.currentPromotions) return null;
+
       return this.currentPromotions.map((x) => ({
         entityId: x.promotionId,
         name: x.promotionName,
@@ -255,6 +256,11 @@ export default {
         this.stores = [...response.data];
       })
       .catch((err) => console.log(err));
+  },
+  watch: {
+    currentPromotions(val) {
+      console.log(val);
+    },
   },
 };
 </script>
