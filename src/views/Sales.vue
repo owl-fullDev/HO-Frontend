@@ -1,8 +1,23 @@
 <template>
   <div class="container">
+    <div
+      class="alert alert-warning alert-dismissible fade show"
+      v-if="!loading && sales.length === 0"
+      role="alert"
+    >
+      No sales recorded for today
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
     <div class="row">
       <div class="col">
-        <h3>All sales</h3>
+        <h3>All sales for today ({{ new Date().toUTCString() }})</h3>
       </div>
     </div>
     <div class="row">
@@ -14,7 +29,7 @@
           :default-sort-direction="'asc'"
           :paginated="true"
           :pagination-rounded="true"
-          :loading="sales.length == 0"
+          :loading="loading"
           :per-page="10"
           :show-detail-icon="true"
           detailed
@@ -107,14 +122,17 @@ export default {
   data: () => {
     return {
       sales: [],
+      loading: false,
     };
   },
   created() {
+    this.loading = true;
     axios
       .get(`${apiUrl}/getAllSalesToday`)
       .then((response) => {
         console.log(response);
         this.sales = [...response.data];
+        this.loading = false;
       })
       .catch((err) => console.log(err));
   },
