@@ -255,3 +255,10 @@ export default {
   },
 };
 </script>
+<style>
+@media screen and (min-width: 769px), print {
+  .pagination-list {
+    margin-bottom: 0 !important;
+  }
+}
+</style>
