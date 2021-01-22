@@ -100,7 +100,7 @@
               </div>
             </div>
 
-            <div class="row">
+            <!-- <div class="row">
               <div class="col">
                 <button
                   class="btn btn-danger"
@@ -111,7 +111,7 @@
                   Delete
                 </button>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
