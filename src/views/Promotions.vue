@@ -146,9 +146,10 @@ export default {
       }
 
       axios
-        .get(
-          `${apiUrl}/hoPromotionsEndpoint/addPromotion?percentage=${this.newPromotionPercentage}&promotionName=${this.newPromotionName}`
-        )
+        .post(`${apiUrl}/hoPromotionsEndpoint/addPromotion`, {
+          percentage: this.newPromotionPercentage,
+          promotionName: this.newPromotionName,
+        })
         .then((response) => {
           console.log(response);
           this.statusMessage = `Promotion <strong> ${this.newPromotionName} </strong> successfully created`;
