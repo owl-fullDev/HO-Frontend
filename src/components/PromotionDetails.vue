@@ -48,7 +48,7 @@
               >
                 <div class="row">
                   <div class="col">
-                    {{ store.location }}
+                    {{ store.name }}
                   </div>
                   <div class="col text-right">
                     <div class="custom-control custom-checkbox">
