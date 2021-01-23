@@ -2,23 +2,43 @@
   <div class="col-xl col-lg-7 col-md-6 col-12 order-first order-md-last mb-2">
     <div class="card w-75" v-if="storeObj">
       <div class="card-header">
-        <h4>{{ storeObj.location }}</h4>
+        <h4>{{ storeObj.name }}</h4>
       </div>
       <div class="card-body">
         <form>
           <div class="form-group">
-            <label for="storeLocation">Location</label>
+            <label for="storeAddress">Address</label>
             <input
               type="text"
-              v-model.trim="storeObj.location"
+              v-model.trim="storeObj.address"
               class="form-control"
-              id="storeLocation"
+              id="storeAddress"
               readonly
               aria-describedby="promoName"
             />
             <small id="promoName" class="form-text text-muted">
               Store Id: {{ storeObj.storeId }}
             </small>
+          </div>
+          <div class="form-group">
+            <label for="city">City</label>
+            <input
+              type="text"
+              v-model.trim="storeObj.city"
+              class="form-control"
+              id="city"
+              readonly
+            />
+          </div>
+          <div class="form-group">
+            <label for="phoneNum">Phone #</label>
+            <input
+              type="text"
+              v-model.trim="storeObj.phone_number"
+              class="form-control"
+              id="phoneNum"
+              readonly
+            />
           </div>
         </form>
         <div class="row">
@@ -97,7 +117,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="confirmationModalLabel">
-                {{ storeObj.location }} - {{ selectedAction }}
+                {{ storeObj.name }} - {{ selectedAction }}
               </h5>
               <button
                 type="button"
@@ -111,7 +131,7 @@
             <div class="modal-body">
               Are you sure you want to do the action
               <strong>{{ selectedAction }}</strong> for the Store:
-              <strong>{{ storeObj.location }}</strong>
+              <strong>{{ storeObj.name }}</strong>
             </div>
             <div class="modal-footer">
               <button

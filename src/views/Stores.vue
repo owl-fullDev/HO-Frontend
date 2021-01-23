@@ -40,6 +40,7 @@
       tabindex="-1"
       aria-labelledby="modalLabel"
       aria-hidden="true"
+      ref="storeModal"
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -59,12 +60,46 @@
           <div class="modal-body">
             <form ref="newStoreForm">
               <div class="form-group">
-                <label for="storeLocation">Store Location</label>
+                <label for="newStoreName">Store Name</label>
                 <input
                   type="text"
-                  v-model.trim="newStoreLocation"
+                  v-model.trim="newStoreName"
                   class="form-control"
-                  id="storeLocation"
+                  id="newStoreName"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="newStoreAddress">Store Address</label>
+                <input
+                  type="text"
+                  v-model.trim="newStoreAddress"
+                  class="form-control"
+                  id="newStoreAddress"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="newStoreCity">City</label>
+                <b-autocomplete
+                  v-model="newStoreCity"
+                  placeholder="e.g. Jakarta"
+                  :open-on-focus="true"
+                  :clearable="true"
+                  :data="filteredCitiesArray"
+                  custom-class="form-control"
+                  required
+                >
+                  <template #empty>No results found</template>
+                </b-autocomplete>
+              </div>
+              <div class="form-group">
+                <label for="newStorePhone">Phone #</label>
+                <input
+                  type="text"
+                  v-model.trim="newStorePhone"
+                  class="form-control"
+                  id="newStorePhone"
                   required
                 />
               </div>
@@ -93,6 +128,12 @@ import axios from "axios";
 import _ from "lodash";
 import EntityList from "@/components/EntityList.vue";
 import StoreDetails from "@/components/StoreDetails.vue";
+import { Cities } from "@/Variables.js";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faTimesCircle);
+
 const apiUrl = "https://owl-backend-server.herokuapp.com/hoStoresEndpoint";
 
 export default {
@@ -103,7 +144,10 @@ export default {
       stores: null,
       selectedStore: null,
       promotions: [],
-      newStoreLocation: "",
+      newStoreName: "",
+      newStoreAddress: "",
+      newStorePhone: "",
+      newStoreCity: "",
       statusMessage: "",
     };
   },
@@ -116,11 +160,21 @@ export default {
 
       return this.stores.map((x) => ({
         entityId: x.storeId,
-        name: x.location,
+        name: x.name,
       }));
     },
     validStoreName() {
-      return this.newStoreLocation.trim();
+      return this.newStoreName.trim();
+    },
+    filteredCitiesArray() {
+      return Cities.filter((option) => {
+        return (
+          option
+            .toString()
+            .toLowerCase()
+            .indexOf(this.newStoreCity.toLowerCase()) >= 0
+        );
+      });
     },
   },
   methods: {
@@ -139,7 +193,7 @@ export default {
     },
     isFormValid() {
       if (this.$refs.newStoreForm)
-        return this.$refs.newStoreForm.checkValidity() && this.validStoreName;
+        return this.$refs.newStoreForm.checkValidity();
 
       return false;
     },
@@ -158,7 +212,12 @@ export default {
     },
     createNewStore() {
       axios
-        .get(`${apiUrl}/addStore?location=${this.newStoreLocation}`)
+        .post(`${apiUrl}/addStore`, {
+          name: this.newStoreName,
+          address: this.newStoreAddress,
+          city: this.newStoreCity,
+          phoneNumber: this.newStorePhone,
+        })
         .then((response) => {
           this.newStoreLocation = "";
           this.statusMessage = response.data;
