@@ -27,10 +27,24 @@
               Products
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" active-class="active" to="/sales">
+          <li class="nav-item dropdown">
+            <span
+              class="nav-link dropdown-toggle"
+              id="salesDropdown"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
               Sales
-            </router-link>
+            </span>
+            <div class="dropdown-menu" aria-labelledby="salesDropdown">
+              <router-link to="/sales" class="dropdown-item">
+                All Sales
+              </router-link>
+              <router-link to="/sales/salesByStore" class="dropdown-item">
+                Sales By Store
+              </router-link>
+            </div>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" active-class="active" to="/stores">
@@ -55,3 +69,8 @@
     <router-view class="mt-5" />
   </div>
 </template>
+<style scoped>
+#salesDropdown:hover {
+  cursor: pointer;
+}
+</style>

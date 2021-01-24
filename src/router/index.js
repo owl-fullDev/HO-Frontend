@@ -5,6 +5,8 @@ import Home from "../views/Home.vue";
 import Promotions from "@/views/Promotions.vue";
 import Products from "@/views/Products.vue";
 import Sales from "@/views/Sales.vue";
+import SalesByStore from "@/views/SalesByStore.vue";
+import AllSales from "@/views/AllSales.vue";
 import Stores from "@/views/Stores.vue";
 import Shipments from "@/views/Shipments.vue";
 import Employees from "@/views/Employees.vue";
@@ -38,8 +40,19 @@ const routes = [
   },
   {
     path: "/sales",
-    name: "Sales",
     component: Sales,
+    children: [
+      {
+        path: "",
+        name: "All Sales",
+        component: AllSales,
+      },
+      {
+        path: "salesByStore",
+        name: "Sales By Store",
+        component: SalesByStore,
+      },
+    ],
   },
   {
     path: "/shipments",
