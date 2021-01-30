@@ -10,6 +10,7 @@ import AllSales from "@/views/AllSales.vue";
 import Stores from "@/views/Stores.vue";
 import Shipments from "@/views/Shipments.vue";
 import Employees from "@/views/Employees.vue";
+import Warehouse from "@/views/Warehouse.vue";
 
 Vue.use(VueRouter);
 
@@ -63,6 +64,11 @@ const routes = [
     path: "/employees",
     name: "Employees",
     component: Employees,
+  },
+  {
+    path: "/warehouse",
+    name: "Warehouse",
+    component: Warehouse,
   },
 ];
 
