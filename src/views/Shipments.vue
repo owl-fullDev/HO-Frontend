@@ -1,5 +1,3 @@
 <template>
-  <div class="container">
-    <h1>This is the shipments page</h1>
-  </div>
+  <router-view />
 </template>

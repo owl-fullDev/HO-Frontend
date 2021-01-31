@@ -29,10 +29,7 @@
         :modal-name="'createNewWarehouseModal'"
         @selectEntity="selectWarehouse"
       />
-      <WarehouseDetails
-        :selected-warehouse="selectedWarehouse"
-        @warehouseAction="updateWarehouses"
-      />
+      <WarehouseDetails :selected-warehouse="selectedWarehouse" />
     </div>
     <div
       class="modal fade"
@@ -173,21 +170,6 @@ export default {
         return this.$refs.newWarehouseForm.checkValidity();
 
       return false;
-    },
-    updateWarehouses(action) {
-      if (action === "Delete") {
-        axios
-          .get(
-            `${apiUrl}/deleteWarehouse?warehouseId=${this.selectedWarehouse.warehouseId}`
-          )
-          .then((response) => {
-            console.log(response);
-            this.statusMessage = response.data;
-            this.selectedWarehouse = null;
-            this.getWarehouses();
-          })
-          .catch((err) => console.log(err));
-      }
     },
     createNewWarehouse() {
       axios
