@@ -2,7 +2,7 @@
   <div class="col-xl col-lg-7 col-md-6 col-12 order-first order-md-last mb-2">
     <div class="card w-75" v-if="shipmentObj">
       <div class="card-header">
-        <h4>Shipment {{ shipmentObj.internalShipmentId }}</h4>
+        <h4>Shipment {{ shipmentObj.shipmentId }}</h4>
       </div>
       <div class="card-body">
         <div class="row">
@@ -15,16 +15,23 @@
               </li>
               <li class="list-group-item">
                 Shipment Id:
-                <strong>{{ shipmentObj.internalShipmentId }}</strong>
+                <strong>{{ shipmentObj.shipmentId }}</strong>
               </li>
               <li class="list-group-item">
-                Warehouse: <strong>{{ shipmentObj.warehouseName }}</strong>
+                Origin:
+                <strong>
+                  {{ shipmentObj.originName }} ({{ shipmentObj.originType }})
+                </strong>
               </li>
               <li class="list-group-item">
-                Store: <strong>{{ shipmentObj.storeName }}</strong>
+                Destination:
+                <strong>
+                  {{ shipmentObj.destinationName }}
+                  ({{ shipmentObj.destinationType }})
+                </strong>
               </li>
               <li class="list-group-item">
-                Date Sent: <strong>{{ dateSent }}</strong>
+                Date Sent: <strong>{{ sendTimestamp }}</strong>
               </li>
             </ul>
           </div>
@@ -41,12 +48,12 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="product in shipmentObj.internalShipmentDetails"
-                  :key="product.id"
+                  v-for="item in shipmentObj.shipmentDetailList"
+                  :key="item.id"
                 >
-                  <th scope="row">{{ product.productId }}</th>
-                  <td>{{ product.productName }}</td>
-                  <td>{{ product.quantity }}</td>
+                  <th scope="row">{{ item.product.productId }}</th>
+                  <td>{{ item.product.productName }}</td>
+                  <td>{{ item.quantity }}</td>
                 </tr>
               </tbody>
             </table>
@@ -66,9 +73,9 @@ export default {
     };
   },
   computed: {
-    dateSent() {
+    sendTimestamp() {
       // prettier-ignore
-      return this.shipmentObj.dateSent === "-" ? "-" : new Date(this.shipmentObj.dateSent).toUTCString();
+      return this.shipmentObj.sendTimestamp === null ? "-" : new Date(this.shipmentObj.sendTimestamp).toUTCString();
     },
   },
   watch: {
