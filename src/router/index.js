@@ -13,6 +13,7 @@ import WarehouseShipments from "@/views/WarehouseShipments.vue";
 import Shipments from "@/views/Shipments.vue";
 import Employees from "@/views/Employees.vue";
 import Warehouse from "@/views/Warehouse.vue";
+import Suppliers from "@/views/Suppliers.vue";
 
 Vue.use(VueRouter);
 
@@ -84,6 +85,11 @@ const routes = [
     path: "/warehouse",
     name: "Warehouse",
     component: Warehouse,
+  },
+  {
+    path: "/suppliers",
+    name: "Suppliers",
+    component: Suppliers,
   },
 ];
 

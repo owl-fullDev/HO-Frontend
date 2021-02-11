@@ -80,6 +80,11 @@
               Warehouse
             </router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" active-class="active" to="/suppliers">
+              Suppliers
+            </router-link>
+          </li>
         </ul>
       </div>
     </nav>
