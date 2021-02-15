@@ -51,24 +51,10 @@
               Stores
             </router-link>
           </li>
-          <li class="nav-item dropdown">
-            <span
-              class="nav-link dropdown-toggle"
-              id="shipmentsDropdown"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
+          <li class="nav-item">
+            <router-link class="nav-link" active-class="active" to="/shipments">
               Shipments
-            </span>
-            <div class="dropdown-menu" aria-labelledby="shipmentsDropdown">
-              <router-link to="/shipments/storeRestock" class="dropdown-item">
-                Store Restock Shipments
-              </router-link>
-              <router-link to="/shipments/warehouse" class="dropdown-item">
-                Warehouse Shipments
-              </router-link>
-            </div>
+            </router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" active-class="active" to="/employees">

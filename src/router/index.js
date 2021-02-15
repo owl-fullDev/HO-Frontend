@@ -8,8 +8,6 @@ import Sales from "@/views/Sales.vue";
 import SalesByStore from "@/views/SalesByStore.vue";
 import AllSales from "@/views/AllSales.vue";
 import Stores from "@/views/Stores.vue";
-import StoreShipments from "@/views/StoreShipments.vue";
-import WarehouseShipments from "@/views/WarehouseShipments.vue";
 import Shipments from "@/views/Shipments.vue";
 import Employees from "@/views/Employees.vue";
 import Warehouse from "@/views/Warehouse.vue";
@@ -62,19 +60,6 @@ const routes = [
     path: "/shipments",
     component: Shipments,
     name: "Shipments",
-    redirect: "/shipments/storeRestock",
-    children: [
-      {
-        path: "storeRestock",
-        name: "Store Restock Shipments",
-        component: StoreShipments,
-      },
-      {
-        path: "warehouse",
-        name: "Warhouse Shipments",
-        component: WarehouseShipments,
-      },
-    ],
   },
   {
     path: "/employees",
