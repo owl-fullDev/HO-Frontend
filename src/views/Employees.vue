@@ -152,6 +152,7 @@
                   v-model.trim="employeePhoneNum"
                   class="form-control"
                   id="phoneNum"
+                  pattern="^\d+$"
                   required
                 />
               </div>
