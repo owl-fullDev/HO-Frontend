@@ -9,6 +9,9 @@ import SalesByStore from "@/views/SalesByStore.vue";
 import AllSales from "@/views/AllSales.vue";
 import Stores from "@/views/Stores.vue";
 import Shipments from "@/views/Shipments.vue";
+import ActiveShipments from "@/views/ActiveShipments.vue";
+import ReceivedSupplierShipments from "@/views/ReceivedSupplierShipments.vue";
+import ReceivedInternalShipments from "@/views/ReceivedInternalShipments.vue";
 import Employees from "@/views/Employees.vue";
 import Warehouse from "@/views/Warehouse.vue";
 import Suppliers from "@/views/Suppliers.vue";
@@ -59,7 +62,24 @@ const routes = [
   {
     path: "/shipments",
     component: Shipments,
-    name: "Shipments",
+    redirect: "/shipments/activeShipments",
+    children: [
+      {
+        path: "activeShipments",
+        name: "Active Shipments",
+        component: ActiveShipments,
+      },
+      {
+        path: "receivedSupplierShipments",
+        name: "Received Supplier Shipments",
+        component: ReceivedSupplierShipments,
+      },
+      {
+        path: "receivedInternalShipments",
+        name: "Received Internal Shipments",
+        component: ReceivedInternalShipments,
+      },
+    ],
   },
   {
     path: "/employees",
