@@ -38,6 +38,10 @@
           aria-previous-label="Previous page"
           aria-page-label="Page"
           aria-current-label="Current page"
+          :row-class="
+            (row, index) =>
+              row.hasWrongAmt ? 'bg-gradient-danger' : 'bg-gradient-success'
+          "
         >
           <b-table-column
             field="shipmentId"
@@ -49,14 +53,6 @@
             {{ props.row.shipmentId }}
           </b-table-column>
           <b-table-column
-            field="destinationName"
-            label="Destination"
-            sortable
-            v-slot="props"
-          >
-            {{ props.row.destinationName }} ({{ props.row.destinationType }})
-          </b-table-column>
-          <b-table-column
             field="originName"
             label="Origin"
             sortable
@@ -64,6 +60,15 @@
           >
             {{ props.row.originName }} ({{ props.row.originType }})
           </b-table-column>
+          <b-table-column
+            field="destinationName"
+            label="Destination"
+            sortable
+            v-slot="props"
+          >
+            {{ props.row.destinationName }} ({{ props.row.destinationType }})
+          </b-table-column>
+
           <b-table-column field="status" label="Status" v-slot="props">
             {{ props.row.status }}
           </b-table-column>
@@ -78,15 +83,21 @@
                       <th scope="col">Product Id</th>
                       <th scope="col">Product Name</th>
                       <th scope="col">Quantity</th>
+                      <th scope="col">Received Quantity</th>
                     </thead>
                     <tbody>
                       <tr
                         v-for="item in props.row.shipmentDetailList"
                         :key="item.id"
+                        :class="{
+                          'bg-gradient-success': item.rightAmt,
+                          'bg-gradient-danger': !item.rightAmt,
+                        }"
                       >
-                        <th scope="row">{{ item.product.productId }}</th>
+                        <td>{{ item.product.productId }}</td>
                         <td>{{ item.product.productName }}</td>
                         <td>{{ item.quantity }}</td>
+                        <td>{{ item.receivedQuantity }}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -100,6 +111,7 @@
   </div>
 </template>
 <script>
+import _ from "lodash";
 import axios from "axios";
 import {
   faArrowUp,
@@ -157,7 +169,22 @@ export default {
         )
         .then((response) => {
           // prettier-ignore
-          this.receivedShipments = response.data.length != 0 ? [...response.data] : [];
+          this.receivedShipments =  [];
+
+          if (response.data.length != 0) {
+            this.receivedShipments = response.data.map((x) => {
+              const shipmentDetailList = x.shipmentDetailList.map((dl) => ({
+                rightAmt: dl.quantity == dl.receivedQuantity,
+                ...dl,
+              }));
+              const hasWrongAmt = _.some(shipmentDetailList, [
+                "rightAmt",
+                false,
+              ]);
+
+              return { ...x, hasWrongAmt, shipmentDetailList };
+            });
+          }
           this.statusMessage = `Received <strong> ${response.data.length} shipments </strong> `;
           this.alertClass = "alert-primary";
           window.scrollTo(0, 0);

@@ -79,7 +79,10 @@
     <router-view class="mt-5" />
   </div>
 </template>
-<style scoped>
+<style lang="scss">
+$enable-gradients: true;
+@import "../node_modules/bootstrap/scss/bootstrap";
+
 #salesDropdown:hover {
   cursor: pointer;
 }
