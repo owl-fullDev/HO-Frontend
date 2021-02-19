@@ -18,7 +18,7 @@
     <div class="row ml-auto">
       <div class="col">
         <p class="h3">
-          Returned <strong>{{ salesCount }} </strong> sales
+          Returned <strong>{{ salesCount }} </strong> items
         </p>
       </div>
     </div>
