@@ -18,7 +18,7 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="row">
+    <div class="row mb-2">
       <div class="col">
         <button
           type="button"
@@ -123,6 +123,7 @@
                   class="form-control"
                   id="employeeFirstName"
                   required
+                  :readonly="employeeAction === 'Modify'"
                 />
               </div>
               <div class="form-group">
@@ -133,6 +134,7 @@
                   class="form-control"
                   id="employeeLastName"
                   required
+                  :readonly="employeeAction === 'Modify'"
                 />
               </div>
               <div class="form-group">
@@ -173,6 +175,7 @@
                   v-model="employeeStoreId"
                 >
                   <option value="" disabled selected>Select Store</option>
+                  <option value="0">No Store</option>
                   <option
                     v-for="{ storeId, name } in stores"
                     :key="storeId"

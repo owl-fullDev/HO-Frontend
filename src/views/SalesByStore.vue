@@ -22,6 +22,15 @@
             {{ props.row.name }}
           </b-table-column>
           <b-table-column
+            field="saleCount"
+            label="Sale Count"
+            numeric
+            v-slot="props"
+            sortable
+          >
+            {{ props.row.saleCount }}
+          </b-table-column>
+          <b-table-column
             field="totalRevenue"
             label="Revenue (Rp)"
             numeric
@@ -30,6 +39,7 @@
           >
             {{ props.row.totalRevenue }}
           </b-table-column>
+
           <template #detail="props">
             <article class="media">
               <div class="media-content">
