@@ -153,7 +153,6 @@
                   class="form-control"
                   id="phoneNum"
                   pattern="^\d+$"
-                  required
                 />
               </div>
               <div class="form-group">
@@ -163,7 +162,6 @@
                   v-model.trim="employeeEmail"
                   class="form-control"
                   id="email"
-                  required
                 />
               </div>
               <div class="form-group">
@@ -173,7 +171,6 @@
                   name="storeId"
                   id="storeId"
                   v-model="employeeStoreId"
-                  required
                 >
                   <option value="" disabled selected>Select Store</option>
                   <option
