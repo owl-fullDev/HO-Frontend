@@ -55,20 +55,20 @@
             {{ props.row.shipmentId }}
           </b-table-column>
           <b-table-column
-            field="destinationName"
-            label="Destination"
-            sortable
-            v-slot="props"
-          >
-            {{ props.row.destinationName }} ({{ props.row.destinationType }})
-          </b-table-column>
-          <b-table-column
             field="originName"
             label="Origin"
             sortable
             v-slot="props"
           >
             {{ props.row.originName }} ({{ props.row.originType }})
+          </b-table-column>
+          <b-table-column
+            field="destinationName"
+            label="Destination"
+            sortable
+            v-slot="props"
+          >
+            {{ props.row.destinationName }} ({{ props.row.destinationType }})
           </b-table-column>
           <b-table-column field="status" label="Status" v-slot="props">
             {{ props.row.status }}
