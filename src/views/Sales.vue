@@ -1,13 +1,5 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col">
-        <h3>
-          Sales for {{ dateQueryString }}.
-          <small class="text-muted">Returned {{ salesCount }} results</small>
-        </h3>
-      </div>
-    </div>
     <div
       class="alert alert-warning alert-dismissible fade show"
       v-if="!loading && salesCount === 0"
@@ -23,71 +15,29 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="row">
+    <div class="row ml-auto">
       <div class="col">
-        <button
-          style="padding-left: 0 !important"
-          class="btn btn-link mb-2"
-          type="button"
-          data-toggle="collapse"
-          data-target="#filterForm"
-          aria-expanded="false"
-          aria-controls="filterForm"
-        >
-          Click to toggle filters
-        </button>
+        <p class="h3">
+          Returned <strong>{{ salesCount }} </strong> sales
+        </p>
       </div>
     </div>
     <div class="row">
       <div class="col">
-        <div class="collapse" id="filterForm">
-          <form
-            class="form-inline"
-            @submit.prevent="$refs.saleChild.filterSales()"
-          >
-            <datetime
-              v-model="startDate"
-              input-class="form-control mb-2 mr-sm-2"
-              placeholder="Start Date"
-              :max-datetime="maxDate"
-              :phrases="{ ok: 'Select', cancel: 'Exit' }"
-              zone="local"
-              value-zone="local"
-              required
-            ></datetime>
+        <DateFilter ref="dateFilter" @filter="$refs.saleChild.filterSales()" />
+      </div>
+    </div>
 
-            <datetime
-              v-model="endDate"
-              input-class="form-control mb-2 mr-sm-2"
-              placeholder="End Date"
-              :max-datetime="maxDate"
-              :phrases="{ ok: 'Select', cancel: 'Exit' }"
-              zone="local"
-              value-zone="local"
-              required
-            ></datetime>
-            <button
-              type="submit"
-              class="btn btn-success mb-2"
-              :disabled="loading"
-            >
-              Filter
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
     <router-view
-      :start-date="formattedStartDate"
-      :end-date="formattedEndDate"
+      :start-date="startDate"
+      :end-date="endDate"
       ref="saleChild"
       @completedQuery="queryCompleted"
     ></router-view>
   </div>
 </template>
 <script>
-import { Datetime } from "vue-datetime";
-
+import DateFilter from "@/components/DateFilter.vue";
 export default {
   name: "Sales",
   data: () => {
@@ -100,7 +50,7 @@ export default {
     };
   },
   components: {
-    datetime: Datetime,
+    DateFilter,
   },
   mounted() {
     this.$watch(
@@ -110,44 +60,25 @@ export default {
       },
       { immediate: true }
     );
+
+    this.$watch(
+      "$refs.dateFilter.formattedStartDate",
+      (val) => {
+        this.startDate = val;
+      },
+      { immediate: true }
+    );
+
+    this.$watch(
+      "$refs.dateFilter.formattedEndDate",
+      (val) => {
+        this.endDate = val;
+      },
+      { immediate: true }
+    );
   },
 
-  computed: {
-    maxDate() {
-      let today = new Date();
-      today.setHours(0, 0, 0, 0);
-      return today.toISOString();
-    },
-    formattedStartDate() {
-      if (this.startDate) {
-        const startDate = new Date(this.startDate);
-        let month = this.padValue(startDate.getMonth() + 1);
-        let date = this.padValue(startDate.getDate());
-
-        return `${startDate.getFullYear()}-${month}-${date}`;
-      }
-
-      return "";
-    },
-    formattedEndDate() {
-      if (this.endDate) {
-        const endDate = new Date(this.endDate);
-        let date = this.padValue(endDate.getDate());
-        let month = this.padValue(endDate.getMonth() + 1);
-        return `${endDate.getFullYear()}-${month}-${date}`;
-      }
-
-      return "";
-    },
-  },
   methods: {
-    padValue(val) {
-      if (val < 10) {
-        return `0${val}`;
-      }
-
-      return val;
-    },
     queryCompleted(salesNum) {
       this.salesCount = salesNum;
     },
@@ -155,8 +86,8 @@ export default {
   watch: {
     $route(to, from) {
       console.log(to, from);
-      this.startDate = "";
-      this.endDate = "";
+      this.$refs.dateFilter.startDate = new Date().toISOString();
+      this.$refs.dateFilter.endDate = new Date().toISOString();
     },
   },
 };
