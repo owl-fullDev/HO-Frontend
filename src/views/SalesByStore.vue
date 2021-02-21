@@ -85,7 +85,7 @@ import {
 import { library } from "@fortawesome/fontawesome-svg-core";
 
 library.add(faArrowUp, faAngleRight, faAngleLeft);
-const apiUrl = "https://owl-backend-server.herokuapp.com/hoSalesEndpoint";
+const apiUrl = `${process.env.VUE_APP_API_URL}/hoSalesEndpoint`;
 
 export default {
   name: "SalesByStore",

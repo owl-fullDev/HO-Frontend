@@ -125,7 +125,7 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPlusCircle);
 
-const apiUrl = "https://owl-backend-server.herokuapp.com";
+const apiUrl = `${process.env.VUE_APP_API_URL}/hoSuppliersEndpoint`;
 export default {
   name: "Suppliers",
   components: { SupplierDetails, EntityList },
@@ -161,7 +161,7 @@ export default {
       }
 
       axios
-        .post(`${apiUrl}/hoSuppliersEndpoint/addNewSupplier`, {
+        .post(`${apiUrl}/addNewSupplier`, {
           supplierName: this.newSupplierName,
           supplierAddress: this.newSupplierAddress,
           supplierPhoneNumber: this.newSupplierPhoneNumber,
@@ -181,7 +181,7 @@ export default {
     },
     async updateSuppliersList(supplierId) {
       axios
-        .get(`${apiUrl}/hoSuppliersEndpoint/getAllSuppliers`)
+        .get(`${apiUrl}/getAllSuppliers`)
         .then((response) => {
           //prettier-ignore
           this.currentSuppliers = response.data.length != 0 ? [...response.data] : [];

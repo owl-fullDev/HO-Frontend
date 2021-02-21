@@ -125,7 +125,7 @@ import DateFilter from "@/components/DateFilter.vue";
 
 library.add(faArrowUp, faAngleRight, faAngleLeft, faMinusCircle, faPlusCircle);
 
-const apiUrl = "https://owl-backend-server.herokuapp.com";
+const apiUrl = `${process.env.VUE_APP_API_URL}/hoShipmentsEndpoint`;
 
 export default {
   name: "ReceivedShipments",
@@ -165,7 +165,7 @@ export default {
       this.loading = true;
       axios
         .get(
-          `${apiUrl}/hoShipmentsEndpoint/getReceivedShipmentsPeriod?start=${this.startDate}&end=${this.endDate}&isSupplier=${this.isSupplier}`
+          `${apiUrl}/getReceivedShipmentsPeriod?start=${this.startDate}&end=${this.endDate}&isSupplier=${this.isSupplier}`
         )
         .then((response) => {
           // prettier-ignore

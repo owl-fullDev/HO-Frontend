@@ -209,7 +209,7 @@
 import axios from "axios";
 import _ from "lodash";
 
-const apiUrl = "https://owl-backend-server.herokuapp.com";
+const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   name: "Employees",

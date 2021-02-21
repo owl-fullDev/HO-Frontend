@@ -111,7 +111,8 @@ import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faPlusCircle);
 
-const apiUrl = "https://owl-backend-server.herokuapp.com";
+const apiUrl = process.env.VUE_APP_API_URL;
+
 export default {
   name: "Promotions",
   components: { PromotionDetails, EntityList },

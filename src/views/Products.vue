@@ -155,7 +155,7 @@
 <script>
 import axios from "axios";
 
-const apiUrl = "https://owl-backend-server.herokuapp.com/hoProductsEndpoint/";
+const apiUrl = `${process.env.VUE_APP_API_URL}/hoProductsEndpoint`;
 
 export default {
   name: "Products",

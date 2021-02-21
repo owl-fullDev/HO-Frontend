@@ -329,7 +329,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 
 library.add(faArrowUp, faAngleRight, faAngleLeft, faMinusCircle, faPlusCircle);
 
-const apiUrl = "https://owl-backend-server.herokuapp.com";
+const apiUrl = process.env.VUE_APP_API_URL;
 
 export default {
   name: "ActiveShipments",
