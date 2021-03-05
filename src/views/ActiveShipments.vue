@@ -52,7 +52,7 @@
             numeric
             v-slot="props"
           >
-            {{ props.row.shipmentId }}
+            <strong>{{ props.row.shipmentId }}</strong>
           </b-table-column>
           <b-table-column
             field="originName"
