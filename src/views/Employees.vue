@@ -280,6 +280,7 @@ export default {
       }
 
       const employee = {
+        employeeId: this.selectedEmployee.employeeId,
         firstName: this.employeeFirstName,
         lastName: this.employeeLastName,
         jobTitle: this.employeeJobTitle,
