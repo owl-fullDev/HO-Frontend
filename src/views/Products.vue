@@ -24,7 +24,8 @@
           type="button"
           class="btn btn-primary"
           data-toggle="modal"
-          data-target="#createNewProductModal"
+          data-target="#productModal"
+          @click="resetProductData"
         >
           Create new Product
         </button>
@@ -54,6 +55,7 @@
           >
             {{ props.row.productId }}
           </b-table-column>
+
           <b-table-column
             field="productName"
             label="Name"
@@ -65,11 +67,20 @@
           <b-table-column
             field="productPrice"
             label="Price (Rp)"
-            numeric
             v-slot="props"
             sortable
           >
             {{ props.row.productPrice }}
+          </b-table-column>
+          <b-table-column label="Actions" v-slot="props">
+            <button
+              class="btn btn-link"
+              @click="modifyProduct(props.row)"
+              data-toggle="modal"
+              data-target="#productModal"
+            >
+              Modify
+            </button>
           </b-table-column>
         </b-table>
       </div>
@@ -77,16 +88,16 @@
     <!-- Modal -->
     <div
       class="modal fade"
-      id="createNewProductModal"
+      id="productModal"
       tabindex="-1"
-      aria-labelledby="newProductModalLabel"
+      aria-labelledby="productModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="newProductModalLabel">
-              Create new Product
+            <h5 class="modal-title" id="productModalLabel">
+              {{ modalAction }} Product
             </h5>
             <button
               type="button"
@@ -100,35 +111,36 @@
           <div class="modal-body">
             <form ref="newProductForm">
               <div class="form-group">
+                <label for="productBarcode">Product Barcode</label>
+                <input
+                  type="text"
+                  v-model.number="productBarcode"
+                  class="form-control"
+                  id="productBarcode"
+                  minlength="16"
+                  maxlength="16"
+                  required
+                  :readonly="inputReadonly"
+                />
+              </div>
+              <div class="form-group">
                 <label for="productName">Product Name</label>
                 <input
                   type="text"
-                  v-model.trim="newProductName"
+                  v-model.trim="productName"
                   class="form-control"
                   id="productName"
                   required
                 />
               </div>
               <div class="form-group">
-                <label for="newProductPrice">Price (Rp)</label>
+                <label for="productPrice">Price (Rp)</label>
                 <input
                   type="number"
-                  v-model.number="newProductPrice"
+                  v-model.number="productPrice"
                   class="form-control"
-                  id="newProductPrice"
+                  id="productPrice"
                   min="1"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="newProductBarcode">Product Barcode</label>
-                <input
-                  type="text"
-                  v-model.number="newProductBarcode"
-                  class="form-control"
-                  id="newProductBarcode"
-                  minlength="16"
-                  maxlength="16"
                   required
                 />
               </div>
@@ -141,10 +153,10 @@
             <button
               type="button"
               class="btn btn-primary"
-              @click="createNewProduct"
+              @click="productAction"
               :data-dismiss="isFormValid() ? 'modal' : ''"
             >
-              Create Product
+              {{ modalAction }} Product
             </button>
           </div>
         </div>
@@ -163,17 +175,37 @@ export default {
     return {
       products: [],
       loading: true,
-      newProductName: "",
-      newProductPrice: 0,
-      newProductBarcode: "",
+      productName: "",
+      productPrice: 0,
+      productBarcode: "",
       statusMessage: "",
       alertClass: "alert-primary",
+      modalAction: "Create",
     };
   },
   created() {
     this.getProducts();
   },
+  computed: {
+    inputReadonly() {
+      return this.modalAction === "Modify";
+    },
+  },
   methods: {
+    resetProductData() {
+      this.productName = "";
+      this.productBarcode = "";
+      this.productPrice = 0;
+
+      this.modalAction = "Create";
+    },
+    modifyProduct(product) {
+      this.productName = product.productName;
+      this.productBarcode = product.productId;
+      this.productPrice = product.productPrice;
+
+      this.modalAction = "Modify";
+    },
     getProducts() {
       axios
         .get(`${apiUrl}/getAllProducts`)
@@ -193,28 +225,47 @@ export default {
 
       return false;
     },
-    createNewProduct() {
+    productAction() {
       if (!this.isFormValid()) {
         this.$refs.newProductForm.reportValidity();
         return;
       }
-      axios
-        .post(`${apiUrl}/addNewProduct`, {
-          productId: this.newProductBarcode,
-          productName: this.newProductName,
-          productPrice: this.newProductPrice,
-        })
-        .then((response) => {
-          console.log(response);
-          this.statusMessage = response.data;
-          this.alertClass = "alert-success";
-          this.getProducts();
-        })
-        .catch((err) => {
-          console.log(err.response);
-          this.statusMessage = err.response.data.message;
-          this.alertClass = "alert-danger";
-        });
+
+      const product = {
+        productId: this.productBarcode,
+        productName: this.productName,
+        productPrice: this.productPrice,
+      };
+
+      if (this.modalAction === "Create") {
+        axios
+          .post(`${apiUrl}/addNewProduct`, product)
+          .then((response) => {
+            console.log(response);
+            this.statusMessage = response.data;
+            this.alertClass = "alert-success";
+            this.getProducts();
+          })
+          .catch((err) => {
+            console.log(err.response);
+            this.statusMessage = err.response.data.message;
+            this.alertClass = "alert-danger";
+          });
+      } else if (this.modalAction === "Modify") {
+        axios
+          .post(`${apiUrl}/updateProduct`, product)
+          .then((response) => {
+            console.log(response);
+            this.statusMessage = response.data;
+            this.alertClass = "alert-success";
+            this.getProducts();
+          })
+          .catch((err) => {
+            console.log(err.response);
+            this.statusMessage = err.response.data.message;
+            this.alertClass = "alert-danger";
+          });
+      }
     },
   },
 };
