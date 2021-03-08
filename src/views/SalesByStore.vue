@@ -24,7 +24,6 @@
           <b-table-column
             field="saleCount"
             label="Sale Count"
-            numeric
             v-slot="props"
             sortable
           >
@@ -33,7 +32,6 @@
           <b-table-column
             field="totalRevenue"
             label="Revenue (Rp)"
-            numeric
             v-slot="props"
             sortable
           >
