@@ -22,7 +22,6 @@
             field="saleId"
             label="ID"
             width="40"
-            numeric
             sortable
             v-slot="props"
           >
@@ -42,7 +41,6 @@
           <b-table-column
             field="revenue"
             label="Revenue (Rp)"
-            numeric
             v-slot="props"
             sortable
           >
