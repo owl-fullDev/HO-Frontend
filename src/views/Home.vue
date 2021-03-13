@@ -27,6 +27,35 @@
         </router-link>
       </div>
     </div>
+    <br>
+    <br>
+    <div class="row">
+      <div class="col">
+        <router-link class="btn btn-secondary btn-lg" to="/employees">
+          Employees
+        </router-link>
+      </div>
+      <div class="col">
+        <router-link class="btn btn-secondary btn-lg" to="/warehouse">
+          Warehouse
+        </router-link>
+      </div>
+      <div class="col">
+        <router-link class="btn btn-secondary btn-lg" to="/suppliers">
+          Supplier
+        </router-link>
+      </div>
+      <div class="col">
+        <router-link class="btn btn-secondary btn-lg" to="/stores">
+          Stock Toko
+        </router-link>
+      </div>
+      <div class="col">
+        <router-link class="btn btn-secondary btn-lg">
+          -
+        </router-link>
+      </div>
+    </div>
   </div>
 </template>
 

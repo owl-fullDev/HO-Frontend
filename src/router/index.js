@@ -21,7 +21,7 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "OWL Administration",
     component: Home,
   },
   {
@@ -90,6 +90,11 @@ const routes = [
     path: "/warehouse",
     name: "Warehouse",
     component: Warehouse,
+  },
+  {
+    path: "/suppliers",
+    name: "Suppliers",
+    component: Suppliers,
   },
   {
     path: "/suppliers",
