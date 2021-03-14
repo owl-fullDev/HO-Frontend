@@ -56,7 +56,7 @@
             >
               Stores
             </span>
-            <div class="dropdown-menu" aria-labelledby="salesDropdown">
+            <div class="dropdown-menu" aria-labelledby="storesDropdown">
               <router-link to="/stores" class="dropdown-item">
                 Stores
               </router-link>

@@ -41,7 +41,7 @@ const routes = [
   },
   {
     path: "/stores",
-    component: Sales,
+    component: Stores,
     children: [
       {
         path: "",
