@@ -1,7 +1,7 @@
 <template>
   <div class="container mt-3 text-center">
     <h1>Pilih toko</h1>
-    <select class="custom-select custom-select-lg mb-3" v-model="storeId">
+    <select class="custom-select custom-select-lg mb-3" v-model="storeId" @change="getStoreQuantities($event)">
       <option value="" selected disabled>Pilih toko</option>
       <option v-for="store in stores" :key="store.id" :value="store.storeId">
         {{ store.name }}
@@ -13,34 +13,36 @@
 <script>
 import axios from "axios";
 
-const apiUrl =
-    "https://owl-backend-server.herokuapp.com/hoStoresEndpoint/";
+const apiUrl = "https://owl-backend-server.herokuapp.com/hoStoresEndpoint/";
 
 export default {
-name: "StoreQuantities",
+  name: "StoreQuantities",
   data: () => {
     return {
       stores: [],
-      storeId: "",
+      storeId: ""
     };
   },
   components: {},
   created() {
     axios
-        .get(`${apiUrl}/getAllStores`)
-        .then((response) => {
-          this.stores = [...response.data];
-        })
-        .catch((err) => console.log(err));
+      .get(`${apiUrl}/getAllStores`)
+      .then(response => {
+        this.stores = [...response.data];
+      })
+      .catch(err => console.log(err));
   },
   methods: {
-
-  },
+    getStoreQuantities() {
+      axios
+        .get(`${apiUrl}/getStoreQuantity?storeId=${this.storeId}`)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => console.log(err));
+    }
+  }
 };
-
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -19,12 +19,12 @@
         <ul class="navbar-nav">
           <li class="nav-item">
             <router-link class="nav-link " active-class="active" to="/promos">
-              Promotions
+              Promosi
             </router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" active-class="active" to="/products">
-              Products
+              Produk
             </router-link>
           </li>
           <li class="nav-item dropdown">
@@ -39,10 +39,10 @@
             </span>
             <div class="dropdown-menu" aria-labelledby="salesDropdown">
               <router-link to="/sales" class="dropdown-item">
-                All Sales
+                Semua Penjualan
               </router-link>
               <router-link to="/sales/salesByStore" class="dropdown-item">
-                Sales By Store
+                Penjualan per Toko
               </router-link>
             </div>
           </li>
@@ -54,35 +54,35 @@
                 aria-haspopup="true"
                 aria-expanded="false"
             >
-              Stores
+              Toko
             </span>
             <div class="dropdown-menu" aria-labelledby="storesDropdown">
               <router-link to="/stores" class="dropdown-item">
-                Stores
+                Toko
               </router-link>
               <router-link to="/stores/StoreQuantities" class="dropdown-item">
-                Store Quantities
+                Inventory Toko
               </router-link>
             </div>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" active-class="active" to="/shipments">
-              Shipments
+              Kiriman
             </router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" active-class="active" to="/employees">
-              Employees
+              Karyawan
             </router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" active-class="active" to="/warehouse">
-              Warehouse
+              Gudang
             </router-link>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" active-class="active" to="/suppliers">
-              Suppliers
+              Supplier
             </router-link>
           </li>
         </ul>

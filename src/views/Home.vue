@@ -3,12 +3,12 @@
     <div class="row">
       <div class="col">
         <router-link class="btn btn-secondary btn-lg" to="/promos">
-          Promotions
+          Promosi
         </router-link>
       </div>
       <div class="col">
         <router-link class="btn btn-secondary btn-lg" to="/products">
-          Products
+          Produk
         </router-link>
       </div>
       <div class="col">
@@ -18,12 +18,12 @@
       </div>
       <div class="col">
         <router-link class="btn btn-secondary btn-lg" to="/stores">
-          Stores
+          Toko
         </router-link>
       </div>
       <div class="col">
         <router-link class="btn btn-secondary btn-lg" to="/shipments">
-          Shipments
+          Kiriman
         </router-link>
       </div>
     </div>
@@ -32,12 +32,12 @@
     <div class="row">
       <div class="col">
         <router-link class="btn btn-secondary btn-lg" to="/employees">
-          Employees
+          Karyawan
         </router-link>
       </div>
       <div class="col">
         <router-link class="btn btn-secondary btn-lg" to="/warehouse">
-          Warehouse
+          Gudang
         </router-link>
       </div>
       <div class="col">

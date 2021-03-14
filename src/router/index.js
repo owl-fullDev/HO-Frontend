@@ -7,6 +7,7 @@ import Products from "@/views/Products.vue";
 import Sales from "@/views/Sales.vue";
 import SalesByStore from "@/views/SalesByStore.vue";
 import AllSales from "@/views/AllSales.vue";
+import Store from "@/views/Store.vue";
 import Stores from "@/views/Stores.vue";
 import Shipments from "@/views/Shipments.vue";
 import ActiveShipments from "@/views/ActiveShipments.vue";
@@ -22,12 +23,12 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "OWL Administration",
+    name: "OWL Administrasi",
     component: Home,
   },
   {
     path: "/promos",
-    name: "Promotions",
+    name: "Promosi",
     component: Promotions,
   },
   {
@@ -36,21 +37,21 @@ const routes = [
   },
   {
     path: "/products",
-    name: "Products",
+    name: "Produk",
     component: Products,
   },
   {
     path: "/stores",
-    component: Stores,
+    component: Store,
     children: [
       {
         path: "",
-        name: "Stores",
+        name: "Toko",
         component: Stores,
       },
       {
         path: "StoreQuantities",
-        name: "Store Product Quantities",
+        name: "Inventory Toko",
         component: StoreQuantities,
       },
     ],
@@ -61,12 +62,12 @@ const routes = [
     children: [
       {
         path: "",
-        name: "All Sales",
+        name: "Penjualan",
         component: AllSales,
       },
       {
         path: "salesByStore",
-        name: "Sales By Store",
+        name: "Penjualan per Toko",
         component: SalesByStore,
       },
     ],
@@ -78,34 +79,34 @@ const routes = [
     children: [
       {
         path: "activeShipments",
-        name: "Active Shipments",
+        name: "Kiriman Aktif",
         component: ActiveShipments,
       },
       {
         path: "receivedSupplierShipments",
-        name: "Received Supplier Shipments",
+        name: "Kiriman Supplier Diterima",
         component: ReceivedSupplierShipments,
       },
       {
         path: "receivedInternalShipments",
-        name: "Received Internal Shipments",
+        name: "Kiriman Internal Diterima",
         component: ReceivedInternalShipments,
       },
     ],
   },
   {
     path: "/employees",
-    name: "Employees",
+    name: "Karyawan",
     component: Employees,
   },
   {
     path: "/warehouse",
-    name: "Warehouse",
+    name: "Gudang",
     component: Warehouse,
   },
   {
     path: "/suppliers",
-    name: "Suppliers",
+    name: "Supplier",
     component: Suppliers,
   },
 ];
