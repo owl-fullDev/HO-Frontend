@@ -279,8 +279,11 @@ export default {
         return;
       }
 
+      // prettier-ignore
+      const employeeId = this.selectedEmployee ? this.selectedEmployee.employeeId : 0;
+
       const employee = {
-        employeeId: this.selectedEmployee.employeeId,
+        employeeId: employeeId,
         firstName: this.employeeFirstName,
         lastName: this.employeeLastName,
         jobTitle: this.employeeJobTitle,

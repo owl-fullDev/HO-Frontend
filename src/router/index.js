@@ -96,11 +96,6 @@ const routes = [
     name: "Suppliers",
     component: Suppliers,
   },
-  {
-    path: "/suppliers",
-    name: "Suppliers",
-    component: Suppliers,
-  },
 ];
 
 const router = new VueRouter({

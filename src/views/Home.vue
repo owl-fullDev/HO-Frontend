@@ -27,8 +27,8 @@
         </router-link>
       </div>
     </div>
-    <br>
-    <br>
+    <br />
+    <br />
     <div class="row">
       <div class="col">
         <router-link class="btn btn-secondary btn-lg" to="/employees">
@@ -50,11 +50,7 @@
           Stock Toko
         </router-link>
       </div>
-      <div class="col">
-        <router-link class="btn btn-secondary btn-lg">
-          -
-        </router-link>
-      </div>
+      <div class="col"></div>
     </div>
   </div>
 </template>
