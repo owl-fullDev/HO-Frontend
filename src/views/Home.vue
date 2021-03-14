@@ -45,11 +45,7 @@
           Supplier
         </router-link>
       </div>
-      <div class="col">
-        <router-link class="btn btn-secondary btn-lg" to="/stores">
-          Stock Toko
-        </router-link>
-      </div>
+      <div class="col"></div>
       <div class="col"></div>
     </div>
   </div>

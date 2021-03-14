@@ -15,6 +15,7 @@ import ReceivedInternalShipments from "@/views/ReceivedInternalShipments.vue";
 import Employees from "@/views/Employees.vue";
 import Warehouse from "@/views/Warehouse.vue";
 import Suppliers from "@/views/Suppliers.vue";
+import StoreQuantities from "@/views/StoreQuantities.vue";
 
 Vue.use(VueRouter);
 
@@ -40,8 +41,19 @@ const routes = [
   },
   {
     path: "/stores",
-    name: "Stores",
-    component: Stores,
+    component: Sales,
+    children: [
+      {
+        path: "",
+        name: "Stores",
+        component: Stores,
+      },
+      {
+        path: "StoreQuantities",
+        name: "Store Product Quantities",
+        component: StoreQuantities,
+      },
+    ],
   },
   {
     path: "/sales",

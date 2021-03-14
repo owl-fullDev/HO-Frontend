@@ -46,10 +46,24 @@
               </router-link>
             </div>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" active-class="active" to="/stores">
+          <li class="nav-item dropdown">
+            <span
+                class="nav-link dropdown-toggle"
+                id="storesDropdown"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+            >
               Stores
-            </router-link>
+            </span>
+            <div class="dropdown-menu" aria-labelledby="salesDropdown">
+              <router-link to="/stores" class="dropdown-item">
+                Stores
+              </router-link>
+              <router-link to="/stores/StoreQuantities" class="dropdown-item">
+                Store Quantities
+              </router-link>
+            </div>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" active-class="active" to="/shipments">
