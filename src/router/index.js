@@ -15,6 +15,8 @@ import ReceivedSupplierShipments from "@/views/ReceivedSupplierShipments.vue";
 import ReceivedInternalShipments from "@/views/ReceivedInternalShipments.vue";
 import Employees from "@/views/Employees.vue";
 import Warehouse from "@/views/Warehouse.vue";
+import Warehouses from "@/views/Warehouses.vue";
+import WarehouseQuantities from "@/views/WarehouseQuantities.vue";
 import Suppliers from "@/views/Suppliers.vue";
 import StoreQuantities from "@/views/StoreQuantities.vue";
 
@@ -100,9 +102,20 @@ const routes = [
     component: Employees,
   },
   {
-    path: "/warehouse",
-    name: "Gudang",
+    path: "/warehouses",
     component: Warehouse,
+    children: [
+      {
+        path: "",
+        name: "Gudang",
+        component: Warehouses,
+      },
+      {
+        path: "WarehouseQuantities",
+        name: "Inventory Gudang",
+        component: WarehouseQuantities,
+      },
+    ],
   },
   {
     path: "/suppliers",

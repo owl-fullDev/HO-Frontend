@@ -48,11 +48,11 @@
           </li>
           <li class="nav-item dropdown">
             <span
-                class="nav-link dropdown-toggle"
-                id="storesDropdown"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
+              class="nav-link dropdown-toggle"
+              id="storesDropdown"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
             >
               Toko
             </span>
@@ -75,10 +75,27 @@
               Karyawan
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link class="nav-link" active-class="active" to="/warehouse">
+          <li class="nav-item dropdown">
+            <span
+              class="nav-link dropdown-toggle"
+              id="warehousesDropdown"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
               Gudang
-            </router-link>
+            </span>
+            <div class="dropdown-menu" aria-labelledby="warehousesDropdown">
+              <router-link to="/warehouses" class="dropdown-item">
+                Gudang
+              </router-link>
+              <router-link
+                to="/warehouses/WarehouseQuantities"
+                class="dropdown-item"
+              >
+                Inventory Gudang
+              </router-link>
+            </div>
           </li>
           <li class="nav-item">
             <router-link class="nav-link" active-class="active" to="/suppliers">

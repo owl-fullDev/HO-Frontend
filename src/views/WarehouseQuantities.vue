@@ -2,19 +2,19 @@
   <div class="container mt-3 ">
     <div class="row text-center">
       <div class="col">
-        <h1>Pilih toko</h1>
+        <h1>Pilih Gudang</h1>
         <select
           class="custom-select custom-select-lg mb-3"
-          v-model="storeId"
-          @change="getStoreQuantities"
+          v-model="warehousesId"
+          @change="getWarehouseQuantities"
         >
-          <option value="" selected disabled>Pilih toko</option>
+          <option value="" selected disabled>Pilih Gudang</option>
           <option
-            v-for="store in stores"
-            :key="store.id"
-            :value="store.storeId"
+            v-for="warehouse in warehouses"
+            :key="warehouse.id"
+            :value="warehouse.warehouseId"
           >
-            {{ store.name }}
+            {{ warehouse.name }}
           </option>
         </select>
       </div>
@@ -50,7 +50,7 @@
             sortable
             v-slot="props"
           >
-            {{ props.row.instoreQuantity }}
+            {{ props.row.inWarehouseQuantity }}
           </b-table-column>
           <b-table-column
             field="productName"
@@ -69,38 +69,38 @@
 <script>
 import axios from "axios";
 
-const apiUrl = "https://owl-backend-server.herokuapp.com/hoStoresEndpoint/";
+const apiUrl = "https://owl-backend-server.herokuapp.com/hoWarehousesEndpoint/";
 
 export default {
-  name: "StoreQuantities",
+  name: "WarehouseQuantities",
   data: () => {
     return {
-      stores: [],
+      warehouses: [],
       products: [],
-      storeId: "",
-      loading: false,
+      warehousesId: "",
+      loading: false
     };
   },
   components: {},
   created() {
     axios
-      .get(`${apiUrl}/getAllStores`)
-      .then((response) => {
-        this.stores = [...response.data];
+      .get(`${apiUrl}/getAllWarehouses`)
+      .then(response => {
+        this.warehouses = [...response.data];
       })
-      .catch((err) => console.log(err));
+      .catch(err => console.log(err));
   },
   methods: {
-    getStoreQuantities() {
+    getWarehouseQuantities() {
       this.loading = true;
       axios
-        .get(`${apiUrl}/getStoreQuantity?storeId=${this.storeId}`)
-        .then((response) => {
+        .get(`${apiUrl}/getWarehouseQuantity?warehouseId=${this.warehousesId}`)
+        .then(response => {
           this.products = [...response.data];
           this.loading = false;
         })
-        .catch((err) => console.log(err));
-    },
-  },
+        .catch(err => console.log(err));
+    }
+  }
 };
 </script>
