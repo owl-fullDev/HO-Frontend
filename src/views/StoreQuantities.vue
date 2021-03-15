@@ -42,7 +42,7 @@
             sortable
             v-slot="props"
           >
-            {{ props.row.productId }}
+            {{ props.row.product.productId }}
           </b-table-column>
           <b-table-column
             field="instoreQuantity"
@@ -52,14 +52,14 @@
           >
             {{ props.row.instoreQuantity }}
           </b-table-column>
-          <!-- <b-table-column
+          <b-table-column
             field="productName"
             label="Name Produk"
             sortable
             v-slot="props"
           >
-            {{ props.row.productName }}
-          </b-table-column> -->
+            {{ props.row.product.productName }}
+          </b-table-column>
         </b-table>
       </div>
     </div>
