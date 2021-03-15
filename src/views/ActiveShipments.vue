@@ -447,21 +447,20 @@ export default {
     validateProductSku(idx) {
       let product = this.products[idx];
 
-      if (product.productId.length !== 16) {
-        product.productIdError = "SKU length should be 16 characters";
-      } else {
-        axios
-          .get(
-            `${apiUrl}/hoShipmentsEndpoint/checkProductId?productId=${product.productId}`
-          )
-          .then(() => {
-            product.productIdError = null;
-          })
-          .catch((err) => {
-            product.productIdError = err.response.data;
-            console.log(err);
-          });
-      }
+      // if (product.productId.length !== 16) {
+      //   product.productIdError = "SKU length should be 16 characters";
+      // } else {}
+      axios
+        .get(
+          `${apiUrl}/hoShipmentsEndpoint/checkProductId?productId=${product.productId}`
+        )
+        .then(() => {
+          product.productIdError = null;
+        })
+        .catch((err) => {
+          product.productIdError = err.response.data;
+          console.log(err);
+        });
     },
     validateProductQuantity(idx) {
       if (this.selectedOriginType === "Supplier") {

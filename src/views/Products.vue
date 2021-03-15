@@ -117,11 +117,14 @@
                   v-model.number="productBarcode"
                   class="form-control"
                   id="productBarcode"
-                  minlength="16"
-                  maxlength="16"
                   required
                   :readonly="inputReadonly"
                 />
+
+                <!-- REMOVE CHECK FOR PRODUCT BARCODE VALIDATION 
+                  minlength="16"
+                  maxlength="16"
+                -->
               </div>
               <div class="form-group">
                 <label for="productName">Product Name</label>
